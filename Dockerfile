@@ -1,16 +1,8 @@
-# Stage 1: Build stage
-FROM eclipse-temurin:21-jdk AS build
-COPY . /app
-WORKDIR /app
-RUN chmod +x ./mvnw
-RUN ./mvnw --no-transfer-progress clean package -DskipTests
-RUN mv -f target/*.jar app.jar
+#
+# Build stage
+#
+FROM openjdk:21-jdk-slim
 
-# Stage 2: Runtime stage
-FROM eclipse-temurin:21-jre
-ARG PORT=8080
-ENV PORT=${PORT}
-COPY --from=build /app/app.jar .
-RUN useradd -ms /bin/bash runtime
-USER runtime
-ENTRYPOINT ["java", "-Dserver.port=${PORT}", "-jar", "app.jar"]
+COPY target/login-backend-jwt-0.0.1-SNAPSHOT.jar app.jar
+EXPOSE 8080
+ENTRYPOINT ["java","-jar","/app.jar"]
