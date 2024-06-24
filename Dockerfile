@@ -2,6 +2,7 @@
 FROM eclipse-temurin:21-jdk AS build
 COPY . /app
 WORKDIR /app
+RUN chmod +x ./mvnw
 RUN ./mvnw --no-transfer-progress clean package -DskipTests
 RUN mv -f target/*.jar app.jar
 
