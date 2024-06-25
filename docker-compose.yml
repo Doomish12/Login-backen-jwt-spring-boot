@@ -8,10 +8,9 @@ services:
     ports:
       - "9090:9090"
     environment:
-      - SPRING_DATASOURCE_URL=jdbc:mysql://root:JtzNpITVjcWjoWkYkAbRyvxRgTrdMZBJ@viaduct.proxy.rlwy.net:50187/railway
-      - SPRING_DATASOURCE_USERNAME=root
-      - SPRING_DATASOURCE_PASSWORD=JtzNpITVjcWjoWkYkAbRyvxRgTrdMZBJ
-      - SPRING_DATASOURCE_DRIVER_CLASS_NAME=com.mysql.cj.jdbc.Driver
+      - SPRING_DATASOURCE_URL=jdbc:mysql://udwpquharvz60awi:ijtXIAtbPqlfXgZrpkkz@bwhcvzty5wzhgricumnb-mysql.services.clever-cloud.com:3306/bwhcvzty5wzhgricumnb
+      - SPRING_DATASOURCE_USERNAME=udwpquharvz60awi
+      - SPRING_DATASOURCE_PASSWORD=ijtXIAtbPqlfXgZrpkkz
       - SPRING_JPA_HIBERNATE_DDL_AUTO=update
       - SPRING_JPA_SHOW_SQL=true
       - SPRING_JPA_DATABASE_PLATFORM=org.hibernate.dialect.MySQLDialect
