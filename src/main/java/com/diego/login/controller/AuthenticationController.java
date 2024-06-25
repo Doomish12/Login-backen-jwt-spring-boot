@@ -13,7 +13,13 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/auth")
-@CrossOrigin(origins = "https://login-backend-jwt.netlify.app")
+@CrossOrigin(
+        origins = "https://login-backend-jwt.netlify.app",
+        allowedHeaders = "*",
+        exposedHeaders = "Authorization",
+        allowCredentials = "true",
+        maxAge = 3600
+)
 public class AuthenticationController {
 
     @Autowired

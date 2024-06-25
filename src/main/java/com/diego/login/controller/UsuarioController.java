@@ -13,7 +13,13 @@ import org.springframework.data.web.config.EnableSpringDataWebSupport;
 
 @RestController
 @RequestMapping("/user")
-@CrossOrigin(origins = "https://login-backend-jwt.netlify.app")
+@CrossOrigin(
+        origins = "https://login-backend-jwt.netlify.app",
+        allowedHeaders = "*",
+        exposedHeaders = "Authorization",
+        allowCredentials = "true",
+        maxAge = 3600
+)
 @EnableSpringDataWebSupport(pageSerializationMode = EnableSpringDataWebSupport.PageSerializationMode.VIA_DTO)
 public class UsuarioController {
 
