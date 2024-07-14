@@ -26,11 +26,11 @@ public class LoginBackendJwtApplication {
                 registry.addMapping("/**")
                         .allowedOrigins("https://login-jwt-angular.netlify.app")
                         .allowedMethods("*")
-                        .allowedHeaders("*");
+                        .allowedHeaders("*")
+                        .allowCredentials(true);
             }
         };
     }
-
 
 
 //    @Bean

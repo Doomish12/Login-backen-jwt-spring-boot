@@ -12,11 +12,15 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.filter.CorsFilter;
+
+import java.util.Arrays;
 
 @Configuration
 @EnableWebSecurity
 public class HttpSecurityConfig {
-
 
     @Autowired
     private JwtAuthenticationFilter jwtAuthenticationFilter;
@@ -26,10 +30,21 @@ public class HttpSecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-
         return http
+                .cors(cors -> {
+                    CorsConfiguration configuration = new CorsConfiguration();
+                    configuration.setAllowedOrigins(Arrays.asList("https://login-jwt-angular.netlify.app"));
+                    configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+                    configuration.setAllowedHeaders(Arrays.asList("*"));
+                    configuration.setAllowCredentials(true);
+
+                    UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+                    source.registerCorsConfiguration("/**", configuration);
+
+                    cors.configurationSource(source);
+                })
                 .csrf(csrf -> csrf.disable())
-                .sessionManagement(sesionManager -> sesionManager.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .sessionManagement(sessionManager -> sessionManager.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authenticationProvider(authProvider)
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .authorizeHttpRequests(authRequest -> {
@@ -37,14 +52,12 @@ public class HttpSecurityConfig {
                     authRequest.requestMatchers("/user/**").hasRole(Rol.ADMINISTRADOR.name());
                     authRequest.anyRequest().authenticated();
                 })
-                .exceptionHandling(mensaje -> mensaje.accessDeniedHandler(accessDeniedHandler()))
+                .exceptionHandling(exception -> exception.accessDeniedHandler(accessDeniedHandler()))
                 .build();
     }
-
 
     @Bean
     public AccessDeniedHandler accessDeniedHandler() {
         return new ManejadorAccesoDenegadoPersonalizado();
     }
-
 }
